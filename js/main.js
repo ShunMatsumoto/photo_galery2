@@ -193,5 +193,56 @@ $(function () {
 
             $filter.on('change', 'input[type="radio"]', filterItems);
         }
+
+        function addItems (filter) {
+
+            var elements = [],
+                slicedData = filteredData.slice(added, added + addItemCount);
+
+            $.each(slicedData, function(i, item) {
+                var itemHTML =
+                    '<li class="gallery-item is-loading">' +
+                      '<a href="' + item.imeges.large + '">' +
+                        '<img src="' + item.imeges.thumb + '" alt="">' +
+                        '<span class="caption">' +
+                          '<span class="inner">' +
+                            '<b class="title">' + item.title + '</b>' +
+                              '<time class="data" datatime="' + item.data + '">' + item.data.replace(/-0?/g, '/') +
+                              '</time>' +
+                          '</span>' +
+                        '</span>' +
+                      '</a>' +
+                    '</li>';
+                elements.push($(itemHTML).get(0));
+            });
+
+            $container
+              .append(elements)
+              .imagesLoaded(function () {
+                  $(elements).removeClass('is-loading');
+                  $container.masonry('appended', elements);
+
+                  if(filter) {
+                      $container.masonry();
+                  }
+            });
+
+            added += slicedData.length;
+
+            if(added < filteredData.length) {
+                $loadMoreButton.show();
+            } else {
+                $loadMoreButton.hide();
+            }
+        }
+
+        // function filterItems () {
+        //     var key = $(this).val(),
+        //     masonryItems = $container.masonry('getItemElements');
+
+        //     $container.masonry('remove', masonryItems);
+
+
+        // }
     })
 })
