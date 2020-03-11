@@ -80,6 +80,15 @@ $(function () {
                     }
                 });
 
+            // リンクにcolorboxを設定
+            $container.find('a').colorbox({
+                maxWidth: '970px',
+                maxHeight: '95%',
+                title: function () {
+                    return $(this).find('.inner').html();
+                }
+            });
+
             // 追加済みアイテム数の更新
             addedd += slicedData.length;
 
