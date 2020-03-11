@@ -180,5 +180,18 @@ $(function () {
         });
 
         $.getJSON('./data/content.json', initGallery);
+
+        function initGallery (data) {
+
+            allData = data;
+
+            filteredData = allData;
+
+            addItems();
+
+            $loadMoreButton.on('click', addItems);
+
+            $filter.on('change', 'input[type="radio"]', filterItems);
+        }
     })
 })
