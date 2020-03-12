@@ -39,6 +39,9 @@ $(function () {
 
             // フィルターのラジオボタンが変更されたらフィルタリングを実行
             $filter.on('change', 'input[type="radio"]', filterItems);
+
+            // アイテムのリンクにホバーエフェクト処理を登録
+            $container.on('mouseenter mouseleave', '.gallery-item a', hoverDirection);
         }
 
         // アイテムを生成しドキュメントに挿入する
@@ -127,6 +130,46 @@ $(function () {
 
             // アイテムを追加
             addItems(true);
+        }
+
+        // ホバーエフェクト
+        function hoverDirection (event) {
+            var $overlay = $(this).find('.caption'),
+                side = getMouseDirection(event),
+                animateTo,
+                positionIn = {
+                    top:  '0%',
+                    left: '0%'
+                },
+                positionOut = (function () {
+                    switch (side) {
+                        // case 0: top, case 1: right, case 2: bottom, default: left
+                        case 0:  return { top: '-100%', left:    '0%' }; break; // top
+                        case 1:  return { top:    '0%', left:  '100%' }; break; // right
+                        case 2:  return { top:  '100%', left:    '0%' }; break; // bottom
+                        default: return { top:    '0%', left: '-100%' }; break; // left
+                    }
+                })();
+            if (event.type === 'mouseenter') {
+                animateTo = positionIn;
+                $overlay.css(positionOut);
+            } else {
+                animateTo = positionOut;
+            }
+            $overlay.stop(true).animate(animateTo, 250, 'easeOutExpo');
+        }
+
+        // マウスの方向を検出する関数
+        // http://stackoverflow.com/a/3647634
+        function getMouseDirection (event) {
+            var $el = $(event.currentTarget),
+                offset = $el.offset(),
+                w = $el.outerWidth(),
+                h = $el.outerHeight(),
+                x = (event.pageX - offset.left - w / 2) * ((w > h)? h / w: 1),
+                y = (event.pageY - offset.top - h / 2) * ((h > w)? w / h: 1),
+                direction = Math.round((Math.atan2(y, x) * (180 / Math.PI) + 180) / 90  + 3) % 4;
+            return direction;
         }
     });
 

@@ -8,7 +8,6 @@ img { vertical-align: middle; }
 .clearfix:before, .clearfix:after { content: " "; display: table; }
 .clearfix:after { clear: both; }
 
-
 /* Page header */
 .page-header {
     background-color: rgb(255, 255, 255);
@@ -28,7 +27,11 @@ img { vertical-align: middle; }
     line-height: 1;
 }
 
-/* Page main */
+
+/*!
+ * Page main
+ */
+
 .page-main {
     margin: auto;
     padding: 103px 10px;
@@ -54,9 +57,48 @@ img { vertical-align: middle; }
 }
 .gallery-item a {
     display: block;
+    /* 外側に配置された子孫要素を隠す */
+    overflow: hidden;
+    position: relative;
 }
 .gallery-item .caption {
-    display: none;
+    background-color: rgb(231, 31, 25);
+    background-color: rgba(231, 31, 25, 0.8);
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    /* 親要素と同じサイズに */
+    width: 100%;
+    height: 100%;
+    /* 親要素の領域外に絶対配置 */
+    position: absolute;
+    left: 100%;
+    top: 100%;
+}
+.gallery-item .caption:before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+.gallery-item .caption > .inner {
+    display: inline-block;
+    vertical-align: middle;
+}
+.gallery-item .title {
+    display: block;
+    font-saptionize: 18px;
+    line-height: 1.17;
+}
+.gallery-item .date {
+    display: block;
+    font-family: "Georgia", serif;
+    font-size: 12px;
+    font-style: italic;
+    line-height: 1.75;
 }
 
 /* フィルター */
